@@ -3,6 +3,7 @@ import { Button, Modal, Row, Col, Well, Breadcrumb, Panel } from 'react-bootstra
 import FormBuilder from './../form/formBuilder';
 import SendEmail from '../service/sendEmail';
 
+/* Componente que registra usuario en la web */
 class InsertUser extends Component {
     constructor(props) {
         super(props);
@@ -14,9 +15,11 @@ class InsertUser extends Component {
         }
         this.role = "";
         this.userId = "";
+        /* ruta de la api que envia mail de confirmación de registro */
         this.urlSendEmail = "/user/sendEmailWhenRegistered"
     }
 
+    /* asigna los parametros que le vienen de indexLinks a la varibale de clase parameters */
     componentWillMount = () => {
         this.parameters = this.props.arrayParametersInsertUser;
     }
@@ -41,9 +44,11 @@ class InsertUser extends Component {
     }
 
     back = () => {
+        /* callback a indexLinks */
         this.props.indexLinksCallback(200);
     }
 
+    /* Cuadro con información que se muestra justo después de haber enviado el correo de registro */
     callBack = () => {
         this.setState({sender:
                 <div>

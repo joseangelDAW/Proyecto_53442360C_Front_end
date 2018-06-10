@@ -6,6 +6,12 @@ import ListAddress from './../address/listAddress';
 
 const url = "/user/listUserByKey/";
 
+/* Componente que lista los datos del usuario, este componente se renderiza
+   al pulsar sobre el item del menú que indica el tipo de usuario y el rol
+   
+   En el render de este componente tenemos un botón que usa el componente insertAddress para
+   insertar una dirección física del usuario y otro para listar las direcciones insertadas hasta
+   el momento */
 class ListUserData extends Component {
 
     constructor(props) {
@@ -21,6 +27,7 @@ class ListUserData extends Component {
         this.listUserData(url, Cookies.get("currentUserId"));
     }
 
+    /* Llamada a la api que devuelve los datos de usuario */
     setStateAsync(state) {
         return new Promise((resolve) => {
             this.setState(state, resolve)
@@ -35,6 +42,8 @@ class ListUserData extends Component {
         await this.setStateAsync({ typeStuff: gridStuff })
     }
 
+
+    /* Creación de la rejilla de datos de usuario */
     getUserGrid = (typeStuff) => {
         return (
             typeStuff.map((typeStuffItem, i) =>
@@ -59,6 +68,7 @@ class ListUserData extends Component {
         )
     }
 
+    /* cierra los componentes hijos abiertos y muestra solo la los datos el usuario */
     outputInsertAddress = (data) => {
         this.setState({ 
             visibleInsertAddress: false,

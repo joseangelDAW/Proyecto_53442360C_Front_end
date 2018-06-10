@@ -13,6 +13,13 @@ const parametersListPetByKey=
     }
 ;
 
+/* Componente solo accesible desde el rol administrador, muestra la lista
+   de usuarios registrados en el sistema, desde este componente el administrador
+   puede acceder a listar las direcciones de cada usuario o su lista de mascotas
+   utilizando los componentes implementados para tal uso 
+   No añado más comentarios en esta clase, porque el componente se limita a utilizar
+   los componentes ya creados anteriormente */
+
 class ListUsers extends Component {
 
     constructor(props) {

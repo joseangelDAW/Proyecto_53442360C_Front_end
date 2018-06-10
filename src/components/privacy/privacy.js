@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Well, Breadcrumb, Panel } from 'react-bootstrap';
 
+/* Componente que muestra la politica de privacidad */
 class Privacy extends Component {
     constructor(props) {
         super(props)

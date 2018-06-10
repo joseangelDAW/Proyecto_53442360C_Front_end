@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import UploadPhoto from '../uploadPhoto/uploadPhoto';
 import ListMatchedPet from './listMatchedPet';
 
-
+/* Componente que lista las mascotas de un usuario */
 class ListPetByUserId extends Component {
 
     constructor(props) {
@@ -44,6 +44,7 @@ class ListPetByUserId extends Component {
         });
     }
 
+    /* Llamada a la API que devuelve la lista de mascotas */
     setStateAsync(state) {
         return new Promise((resolve) => {
             this.setState(state, resolve)
@@ -53,6 +54,8 @@ class ListPetByUserId extends Component {
     listPets = async () => {
         const res = await fetch(this.url + "/" + this.userId);
         const stuff = await res.json();
+        
+        /* Se llama al método que construye la lista de mascotas del usuario */
         const gridStuff = this.getPetsGrid(stuff);
         await this.setStateAsync({ typeStuff: gridStuff })
     }
@@ -68,6 +71,10 @@ class ListPetByUserId extends Component {
         })
     }
 
+    /* Mismo método que en insertNews, se reutiliza el componente UploadPhoto
+       En este caso, está dentro de un Modal de Bootstrap, cuando el estado
+       visibleUploader vale true, se muestra comó un PopUp en pantalla, con
+       el botón cerrar se llama a UploadImageCancel y se cierra */
     uploadImage = (petId) => {
         this.setState({
             uploader:
@@ -92,6 +99,10 @@ class ListPetByUserId extends Component {
         this.listPets();
     }
 
+    /* Este método es el que muestra la lista de mascotas compatibles al pulsar el botón mostrar coincidencias.
+       Se construye la ruta a la que hacer la llamada, con la url, y el parámetro, macho o hembra dependiendo del
+       sexo de la mascota del usuario.
+       Al final del método, se pone a false visibleListPetByUserId para ocultar el listado de mascotas del usuario */
     listMatchedPet = (name, typePet, sex, race) => {
         switch (sex) {
             case "Macho":
@@ -111,12 +122,15 @@ class ListPetByUserId extends Component {
     }
 
 
+    /* Cuando se está construyendo la rejilla que muestra las mascotas del usuario, si la mascota no tiene
+       imagen se muestra el botón de añadir imagen */
     testIsNotNull = (image) => {
         let result;
         (null === image || "" === image) ? result = false : result = true;
         return result;
     }
 
+    /* Método que construye el objeto JSX con la rejilla de las mascotas añadidas por el usuario */
     getPetsGrid = (typeStuff) => {
         return (
             <div className="imageAndDataRow">
@@ -180,9 +194,6 @@ class ListPetByUserId extends Component {
                             <Breadcrumb.Item onClick={this.breadcrumbHomeCallback}>Inicio</Breadcrumb.Item>
                             <Breadcrumb.Item active>Mis mascotas</Breadcrumb.Item>
                         </Breadcrumb>
-                        
-
-
                         <PageHeader className="pageHeaderPage hidden-xs">
                             Mis mascotas
                         </PageHeader>

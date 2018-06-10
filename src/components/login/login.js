@@ -17,15 +17,19 @@ class Login extends Component {
         this.role = this.parameters[this.state.index].value;
     }
 
+    /* El componente tabs devuelve 0 o 1 dependiendo de si se ha seleccionado
+       Usuario o Administrador */
     tabsCallback = (data) => {
         this.setState({ index: data });
         this.role = this.parameters[data].value;
     }
 
+    /* Datos recibidos del fetch del formulario */
     formBuilderCallbackForm = (data, user, returnValue) => {
         this.props.indexLinksCallback(data, user, returnValue, this.role);
     }
 
+    /* Callback a indexLinks si se pulsa inicio en el breadcrumbs */
     breadcrumbHomeCallback = () => {
         this.props.indexLinksCallbackHome();
     }

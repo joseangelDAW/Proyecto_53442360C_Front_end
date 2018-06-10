@@ -130,9 +130,6 @@ class ListUsers extends Component {
                             <Breadcrumb.Item onClick={this.props.indexLinksCallbackHome}>Inicio</Breadcrumb.Item>
                             <Breadcrumb.Item active>Lista de usuarios</Breadcrumb.Item>
                         </Breadcrumb>
-
-
-
                         <PageHeader className="pageHeaderPage hidden-xs">
                             Lista de usuarios
                 </PageHeader>

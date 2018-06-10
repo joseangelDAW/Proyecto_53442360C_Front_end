@@ -29,6 +29,11 @@ class ListNews extends Component {
         this.setState ({fromInsert : nextProps.fromInsert});
     }
 
+
+    /* Llamada a la ruta de la API que lista las noticias añadidas en la base de datos 
+       Utilizo async, await y el metodo setStateAsync, en lugar de fetch, porque hay que
+       esperar que termine la llamada a la API. Al hacer setState, se re-renderiza el componente,
+       si no ha terminado la llamada se producen errores al pintar el HTML. */
     setStateAsync(state) {
         return new Promise((resolve) => {
             this.setState(state, resolve)
@@ -38,23 +43,26 @@ class ListNews extends Component {
     listNews = async (url) => {
         const res = await fetch(url);
         const stuff = await res.json();
+
+        /* Si la respuesta del servidor es un array vacío se
+           pone a true es estado emptyResponse, que controla
+           que se muestre el mensaje, No hay noticias */
         if (stuff.length === 0) {
             this.setState({ emptyResponse: true });
         }
+        /* Se llama al método que construye la rejilla de noticias*/
         const gridStuff = this.getNewsGrid(stuff);
         await this.setStateAsync({ typeStuff: gridStuff })
     }
+    /* -------- Fin de llamada a la api -------------------------- */
 
+    /* Le dice al padre que muestre la pantalla principal */
     breadcrumbHomeCallback = () => {
         this.props.indexLinksCallbackHome();
     }
 
-    testIsNotNull = (image) => {
-        let result;
-        (null === image || "" === image) ? result = false : result = true;
-        return result;
-    }
-
+    /* Construye la rejilla de noticias, utilizo Row y Col de ReactBootstrap para 
+       maquetar en columnas */
     getNewsGrid = (typeStuff) => {
         return (
             <Row className="show-grid">{

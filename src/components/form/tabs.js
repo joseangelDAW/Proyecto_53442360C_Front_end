@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
 
+/* Componente pestañas del Login */
 class Tabs extends Component {
 
     state = {
@@ -8,6 +9,8 @@ class Tabs extends Component {
         key: "1"
     }
 
+    /* Según la pestaña seleccionada (Usuario o administrador), se le pasa al componente padre(Login) para que renderice
+       un formulario u otro */
     handleSelect(selectedKey) {
         this.setState({ key: selectedKey })
         this.props.loginCallback(parseInt(selectedKey) - 1);

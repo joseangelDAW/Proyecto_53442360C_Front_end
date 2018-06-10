@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { ButtonToolbar, Panel, Image, Button } from 'react-bootstrap';
 import ImageUploader from 'react-images-upload';
 
-
+/* Componente que sube fotos al servidor, antes de realizar la llamada a la API
+   muestra una preview de la foto a subir, se utiliza el componente de react ImageUploader */
 class UploadPhoto extends Component {
     constructor(props) {
         super(props);
@@ -21,11 +22,16 @@ class UploadPhoto extends Component {
     }
 
 
+    /* Método que se dispara cuando se selecciona una imagen del disco duro 
+       onDrop recibe el evento, que contiene la imagen en su primera posición del array que lo forma
+       Utilizamos un reader y el método readAsDataUrl para construir la preview de la imagen */
     onDrop = event => {
         var file = event[0];
         var reader = new FileReader();
         reader.readAsDataURL(file)
 
+        /* Se asigna al estado picture la preview de la imagen y al estado file la imagen en si
+           para enviarla, y se cambian los estados de visibilidad, también se hace visible el botón enviar */
         reader.onloadend = () => {
             this.setState({
                 picture: reader.result,
@@ -43,6 +49,7 @@ class UploadPhoto extends Component {
         this.url = this.props.url;
     }
 
+    /* Llamada a la API que envia por POST la imagen */
     sendImageToServer = () => {
         this.setState({
             visibleImage: false,
@@ -70,7 +77,6 @@ class UploadPhoto extends Component {
     }
 
     finish = () => {
-        //this.props.uploadPhotoCallback();
     }
 
     render() {

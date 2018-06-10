@@ -13,8 +13,9 @@ import ListAddress from "./address/listAddress";
 import Privacy from "./privacy/privacy";
 
 /* LANDING PAGE */
-/* En esta clase hay varios enlaces que llaman al listado, al formulario dinámico, y al formulario tradicional */
+/* Controlador de la página */
 
+/* La visibilidad de los estados regulan que se muestren los componentes, o no */
 class IndexLinks extends Component {
     constructor(props) {
         super(props);
@@ -37,12 +38,18 @@ class IndexLinks extends Component {
             login: true
         };
 
+        /* Variables de clase */
         this.user = "";
         this.userId = "";
         this.role = "";
         this.navItemsWhenLogged = '';
         this.title = "";
 
+
+        /* Aqui se asignan los parámetros de los componentes a las variables de clase
+           la forma de pasar datos de padres a hijos es con la palabra reservada props,
+           en parametersIndexLinks los props se pasan cómo atributos en la etiqueta del 
+           componente */
         this.arrayParametersInsertPet = this.props.arrayParametersInsertPet;
         this.arrayParametersInsertUser = this.props.arrayParametersInsertUser;
         this.arrayParametersLoginUser = this.props.arrayParametersLoginUser;
@@ -55,14 +62,21 @@ class IndexLinks extends Component {
         this.inputArray = [];
     }
 
+    /* Método que desactiva el botón atras en el navegador */
     disbleBackwardsButton = () => {
         window.location.hash = "no-back-button";
         window.location.hash = "Again-No-back-button" //chrome
         window.onhashchange = () => { window.location.hash = "no-back-button"; }
     }
 
+    /* componentWillMount es un método de React que se ejecuta siempre antes de 
+        que se renderice el componente, es decir, antes de que se ejecute el método render */
     componentWillMount = () => {
         this.disbleBackwardsButton();
+
+        /* Si se recarga la página, se comprueba si hay algún usuario con sesión iniciada, esto
+        se comprueba mirando si las cookies están definida. En caso afirmativo, se llama al método
+        showLogged con los valores de las cookies */
         if (Cookies.get("currentUserId") !== "" && Cookies.get("currentUserId") !== undefined) {
             this.showLogged(
                 Cookies.get("currentUserName"),
@@ -72,10 +86,14 @@ class IndexLinks extends Component {
         }
     }
 
+    /* Método que setea las cookies, con la librería JsCookies es muy sencillo,
+       Utilizo este método por si se quisiera añadir un tiempo de vida para las
+       cookies, en el estado actual del proyecto, se borran al cerrar el navegador */
     setCookie = (cname, cvalue, seconds) => {
         Cookies.set(cname, cvalue);
     }
 
+    /* Oculta todos los componentes y muestra la landing page */
     showIndexAndHideElses = () => {
         this.setState({
             visibleFormBuilder: false,
@@ -93,6 +111,9 @@ class IndexLinks extends Component {
         })
     }
 
+    /* Método que se ejecuta con los valores devueltos del componente Login,
+       Cuando un usuario inicia sesión, se setean las cookies, y luego se
+       llama al método showLogged que actualiza el menú de navegación */
     loginCallback = (data, user, userId, role) => {
         if (200 === data) {
             this.setCookie("currentUserName", user);
@@ -102,6 +123,8 @@ class IndexLinks extends Component {
         }
     }
 
+    /* Actualización de menú de navegación, dependiendo de si el usuario es
+        administrador o no */
     showLogged = (user, userId, role) => {
         this.user = user;
         this.userId = userId;
@@ -117,22 +140,23 @@ class IndexLinks extends Component {
             default:
                 this.showIndexAndHideElses();
         }
+        /* Se cambia el estado a logeado */
         this.setState({ logged: true });
         this.showIndexAndHideElses();
     }
 
+    /* Si una noticia se ha añadido correctamente, se muestra la pantalla principal */
     insertEntityCallback = (data) => {
         if (200 === data) {
             this.showIndexAndHideElses();
         }
     }
 
-    uploadPhotoCallback = (data) => {
-        this.showIndexAndHideElses();
-    }
-
 
     /* --------------------------- Funciones de Navbar --------------------------------- */
+
+    /* Creación de los elementos dinámicos del menú de navegación con los parámetros recibidos
+       según sea el menú para sesión iniciada por un administrador, o por un usuario normal */
     updateNavItems = (parameters) => {
         this.navItemsWhenLogged =
             /* Maps anidados para menus y submenus */
@@ -150,6 +174,7 @@ class IndexLinks extends Component {
 
     }
 
+    /* Dependiendo de la opción pulsada en el menú, showCategory muestra unos componentes u otros */
     actionPushMenu = (value, url) => {
         this.showIndexAndHideElses();
         this.setState({
@@ -201,6 +226,7 @@ class IndexLinks extends Component {
         }
     }
 
+    /* Muestra el formulario de inicio de sesión */
     showLogin = () => {
         this.showIndexAndHideElses();
         this.setState({
@@ -210,6 +236,7 @@ class IndexLinks extends Component {
         });
     }
 
+    /* Muestra el formulario de registro en la web */
     showRegister = () => {
         this.showIndexAndHideElses();
         this.setState({
@@ -219,6 +246,7 @@ class IndexLinks extends Component {
         });
     }
 
+    /* Muestra el componente de la política de privacidad */
     showPrivacy = () => {
         this.showIndexAndHideElses();
         this.setState({
@@ -227,6 +255,9 @@ class IndexLinks extends Component {
         });
     }
 
+    /* Cuando de cierra la sesión, se llama a este método, se borran las cookies,
+       se cambia el estado logged  a false, y showIndexAndHideElses oculta todos
+       los componentes, menos el background de la landing page */
     logOut = () => {
         this.setState({ logged: false });
         Cookies.remove("currentUserId");
@@ -236,6 +267,12 @@ class IndexLinks extends Component {
     }
     /*----------------------------Fin funciones Navbar ------------------------------ */
 
+
+    /* El método render del componente es el que muestra los componentes, todos los componentes están controlados
+       por los estados de visibilidad, se usa la notación {this.state.visible && <Nombre componente />} que es lo mismo
+       que utilizar un if (this.state.visible) {} pero con notación ECMAScript 6.
+       El menú siempre está visible, hay condicionales dentro que muestran elementos o los ocultan según se este logeado
+       o no, o según el usuario sea administrador o no */
     render() {
         return (
             <div className="container-fluid">
@@ -263,7 +300,7 @@ class IndexLinks extends Component {
                                 Noticias
                             </NavItem>
                             <NavDropdown eventKey={3} title="Información" id="basic-nav-dropdown">
-                                <MenuItem  eventKey={3.1} onClick={this.showPrivacy}>
+                                <MenuItem eventKey={3.1} onClick={this.showPrivacy}>
                                     Política de privacidad
                                 </MenuItem>
                                 <MenuItem eventKey={3.2} onClick={this.showIndexAndHideElses}>
@@ -320,20 +357,20 @@ class IndexLinks extends Component {
                             arrayParametersInsertPet={this.arrayParametersInsertPet}
                         />}
 
-                    {this.state.visibleInsertUser && 
-                        <InsertUser 
-                        indexLinksCallback={this.insertEntityCallback} 
-                        url={this.url} 
-                        arrayParametersInsertUser={this.arrayParametersInsertUser} 
+                    {this.state.visibleInsertUser &&
+                        <InsertUser
+                            indexLinksCallback={this.insertEntityCallback}
+                            url={this.url}
+                            arrayParametersInsertUser={this.arrayParametersInsertUser}
                         />
                     }
 
-                    {this.state.visibleLogin && 
-                        <Login 
-                            indexLinksCallback={this.loginCallback} 
-                            indexLinksCallbackHome={this.showIndexAndHideElses} 
-                            arrayParametersLogin={this.arrayParametersLoginUser} 
-                            />
+                    {this.state.visibleLogin &&
+                        <Login
+                            indexLinksCallback={this.loginCallback}
+                            indexLinksCallbackHome={this.showIndexAndHideElses}
+                            arrayParametersLogin={this.arrayParametersLoginUser}
+                        />
                     }
 
                     {this.state.visibleListPetByUserId && this.state.logged && <ListPetByUserId indexLinksCallbackHome={this.showIndexAndHideElses} url={this.url} parametersListPetByKey={this.parametersListPetByKey} hideListMatchedPet={false} />}
@@ -355,7 +392,7 @@ class IndexLinks extends Component {
 
                     {this.state.visibleListUsers && <ListUsers indexLinksCallbackHome={this.showIndexAndHideElses} />}
 
-                    {this.state.visiblePrivacy && <Privacy indexLinksCallbackHome={this.showIndexAndHideElses}/>}
+                    {this.state.visiblePrivacy && <Privacy indexLinksCallbackHome={this.showIndexAndHideElses} />}
 
                 </div>
 
@@ -382,15 +419,10 @@ class IndexLinks extends Component {
                         }
                     </div>
                 }
-
-
-
-
-
-
             </div>
         )
     }
 }
 
+/* El export siempre hay que ponerlo, para que otros componentes puedan usar este componente */
 export default IndexLinks;

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, Well, Breadcrumb, Panel } from 'react-bootstrap';
 import FormBuilder from './../form/formBuilder';
 
+/* Componente que inserta mascotas, se usa el componente FormBuilder,
+   El componente FormBuilder es el que realiza la llamada a la API */
 class InsertPet extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,6 @@ class InsertPet extends Component {
     }
 
     formBuilderCallbackForm = (data, user, returnValue) => {
-        //this.props.indexLinksCallback(data);
         this.props.showListPetByUserIdCallback();
     }
 

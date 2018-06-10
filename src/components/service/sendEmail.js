@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { ButtonToolbar, Panel, Image, Button } from 'react-bootstrap';
 
+/* Componente encargado de enviar emails al usuario
+   Este componente lo utilizan los componentes insertUser
+   y listMatchedPets */
 class SendEmail extends Component {
     constructor(props) {
         super(props);
@@ -18,6 +21,8 @@ class SendEmail extends Component {
         this.urlSendEmail = "";
     }
 
+    /* Se almacenan en las variables de clase los parámetros recibidos de
+       los componentes Padre */
     componentWillMount = () => {
         this.userId = this.props.userId;
         this.receiverEmail = this.props.receiverEmail;
@@ -25,6 +30,8 @@ class SendEmail extends Component {
         this.urlSendEmail = this.props.urlSendEmail;
     }
 
+    /* Llamada a la ruta de la API que envia los emails, el contenido de los emails
+       está en las plantillas twig de Symfony en el backEnd */
     sendEmail = (userId, receiverEmail, petName) => {
         this.setState({ isLoading: false });
         fetch(this.urlSendEmail, {
@@ -58,10 +65,13 @@ class SendEmail extends Component {
         this.setState({ isLoading: true });
     }
 
+    /* Callback a indexLinks una vez finalizado el envio del mensaje */
     finish = () => {
         this.props.insertUserCallback();
     }
 
+    /* En el método render, tenemos un botón que cambia en el momento que se produce la llamda asíncrona
+       si el state isLoading es true, se desactiva el botón y se muestra el texto Enviando mensaje */
     render() {
         return (
             <div>

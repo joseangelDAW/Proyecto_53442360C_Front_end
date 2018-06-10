@@ -3,6 +3,7 @@ import { Modal, Glyphicon, Button, Breadcrumb, Panel, Image, Row, Col, PageHeade
 import Cookies from "js-cookie";
 import SendEmail from '../service/sendEmail';
 
+/* Componente que lista las mascotas compatibles encontradas */
 class ListMatchedPet extends Component {
 
     constructor(props) {

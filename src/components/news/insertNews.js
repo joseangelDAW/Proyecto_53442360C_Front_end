@@ -3,6 +3,12 @@ import { Row, Col, Well, Breadcrumb, Panel, Button } from 'react-bootstrap';
 import FormBuilder from './../form/formBuilder';
 import UploadPhoto from '../uploadPhoto/uploadPhoto';
 
+/* Componente que realiza la inserción de noticias, este componente es usado
+   únicamente por el administrador.
+   Se usa el componente FormBuilder para inserta la noticia, en el callback
+   recibido de de formbuilder, se llama al método  uploadImage que, a su vez
+   llama al componente UploadPhoto, que se encarga de subir fotos al servidor
+   En este caso se sube la foto de la imagen de la noticia */
 class InsertNews extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +28,6 @@ class InsertNews extends Component {
 
     componentWillMount = () => {
         this.parameters = this.props.arrayParametersInsertNews;
-        //console.log(this.parameters[0]["textArea"][0].tx);
     }
 
     formBuilderCallbackForm = (data, user, returnValue) => {
@@ -31,7 +36,6 @@ class InsertNews extends Component {
             visibleUploader: true,
         });
         this.uploadImage(returnValue);
-        //this.props.indexLinksCallback(data);
     }
 
     setStateAsync(state) {
@@ -59,6 +63,8 @@ class InsertNews extends Component {
         this.props.goListNewsCallback();
     }
 
+    /* Al renderizar el componente insertNews, uploader = "", una vez que se llama al método
+       uploadImage, se rellena con un objeto JSX que se pinta en el método render */
     uploadImage = (entryId) => {
         this.setState({
             uploader:

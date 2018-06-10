@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import IndexLinks from './indexLinks';
 
-/* LANDING PAGE */
-/* En esta clase hay varios enlaces que llaman al listado, al formulario dinámico, y al formulario tradicional */
+
 
 class ParemetersIndexLinks extends Component {
 
+    /* Los parámetros que construyen los componentes se pasan como arrays de objetos, clave - valor */
     render() {
         return (
             <div>
